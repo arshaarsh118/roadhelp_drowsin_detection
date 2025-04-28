@@ -1,0 +1,156 @@
+{% include 'admin_header.html' %}
+<br><br><br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>admin_verify_fuel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .headers {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        .card-containers {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 20px;
+            width: 300px;
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .card-header {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .card-content {
+            margin-bottom: 20px;
+        }
+        .card-label {
+            font-weight: bold;
+            color: #7f8c8d;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        .card-value {
+            margin-bottom: 15px;
+            word-break: break-word;
+        }
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .action-button {
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            flex: 1;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+        .accept {
+            background-color: #2ecc71;
+            color: white;
+        }
+        .accept:hover {
+            background-color: #27ae60;
+        }
+        .reject {
+            background-color: #e74c3c;
+            color: white;
+        }
+        .reject:hover {
+            background-color: #c0392b;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .status-accepted {
+            background-color: #2ecc71;
+        }
+        .status-rejected {
+            background-color: #e74c3c;
+        }
+        .status-pending {
+            background-color: #f39c12;
+        }
+    </style>
+</head>
+<body>
+    <div class="headers">
+        <h2>Verify Fuel Provider</h2>
+    </div>
+    
+    <div class="card-containers">
+        {% for i in data['view'] %}
+        <div class="card">
+            <div class="card-header">
+                {{i['provider_name']}}
+                {% if i['usertype'] == 'pending' %}
+                <span class="status-badge status-pending" style="float: right;">Pending</span>
+                {% elif i['usertype'] == 'fuel' %}
+                <span class="status-badge status-accepted" style="float: right;">Accepted</span>
+                {% elif i['usertype'] == 'reject' %}
+                <span class="status-badge status-rejected" style="float: right;">Rejected</span>
+                {% endif %}
+            </div>
+            
+            <div class="card-content">
+                <div class="card-label">Place</div>
+                <div class="card-value">{{i['provider_place']}}</div>
+                
+                <div class="card-label">Phone</div>
+                <div class="card-value">{{i['provider_phone']}}</div>
+                
+                <div class="card-label">Email</div>
+                <div class="card-value">{{i['provider_email']}}</div>
+            </div>
+            
+            <div class="card-actions">
+                {% if i['usertype'] == 'pending' %}
+                <a href="?action=accept&lid={{i['login_id']}}" class="action-button accept">Accept</a>
+                <a href="?action=reject&lid={{i['login_id']}}" class="action-button reject">Reject</a>
+                {% elif i['usertype'] == 'fuel' %}
+                <span class="action-button accept" style="cursor: default;">Accepted</span>
+                <a href="?action=reject&lid={{i['login_id']}}" class="action-button reject">Reject</a>
+                {% elif i['usertype'] == 'reject' %}
+                <a href="?action=accept&lid={{i['login_id']}}" class="action-button accept">Accept</a>
+                <span class="action-button reject" style="cursor: default;">Rejected</span>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

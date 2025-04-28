@@ -1,0 +1,163 @@
+{% include 'admin_header.html' %}
+<br><br><br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaints Cards</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        h3 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 20px;
+            width: 350px;
+            transition: transform 0.3s;
+            position: relative;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .complaint-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        .date {
+            color: #666;
+            font-size: 14px;
+        }
+        .status-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .status-pending {
+            background-color: #ffecb3;
+            color: #ff6f00;
+        }
+        .status-replied {
+            background-color: #c8e6c9;
+            color: #2e7d32;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #555;
+            font-size: 14px;
+        }
+        .user-info-icon {
+            margin-right: 8px;
+            font-size: 16px;
+        }
+        .complaint-content {
+            background-color: #f9f9f9;
+            border-left: 3px solid #2196f3;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 0 4px 4px 0;
+        }
+        .reply-content {
+            background-color: #e8f5e9;
+            border-left: 3px solid #4caf50;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 0 4px 4px 0;
+        }
+        .pending-reply {
+            font-style: italic;
+            color: #757575;
+        }
+        .action-button {
+            display: inline-block;
+            background-color: #2196f3;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            text-align: center;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+        .action-button:hover {
+            background-color: #0d8af0;
+        }
+    </style>
+</head>
+<body>
+    <h3>Complaints</h3>
+    <div class="card-container">
+        {% for i in data['view'] %}
+        <div class="card">
+            <div class="status-badge {% if i['reply'] == 'pending' %}status-pending{% else %}status-replied{% endif %}">
+                {% if i['reply'] == 'pending' %}Not Yet Replied{% else %}Replied{% endif %}
+            </div>
+            <br>
+            
+            <div class="card-header">
+                <div class="complaint-title">{{i['title']}}</div>
+                <div class="date">{{i['complaint_date']}}</div>
+            </div>
+            
+            <div class="user-info">
+                <span class="user-info-icon">👤</span>
+                <strong>{{i['user_fname']}}</strong> &nbsp;|&nbsp; 📞 {{i['user_phone']}}
+            </div>
+            
+            <div class="complaint-content">
+                {{i['complaint']}}
+            </div>
+            
+            {% if i['reply'] != 'pending' %}
+            <div class="reply-content">
+                <strong>Reply:</strong> {{i['reply']}}
+            </div>
+            {% else %}
+            <div class="pending-reply">
+                No reply has been sent yet.
+            </div>
+            {% endif %}
+            
+            <a href="/admin_send_reply?cid={{i['complaint_id']}}" class="action-button">
+                {% if i['reply'] == 'pending' %}Send Reply{% else %}Update Reply{% endif %}
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
+

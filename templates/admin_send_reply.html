@@ -1,0 +1,98 @@
+{% include 'admin_header.html' %}
+<br><br><br><br><br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Reply</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        h3 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 24px;
+        }
+        
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            min-height: 150px;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            resize: vertical;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #2196f3;
+            box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+        }
+        
+        textarea::placeholder {
+            color: #aaa;
+        }
+        
+        .btn-container {
+            text-align: right;
+        }
+        
+        .btn-submit {
+            background-color: #2196f3;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-submit:hover {
+            background-color: #0d8af0;
+        }
+        
+        .btn-submit:active {
+            transform: translateY(1px);
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h3>Send Reply</h3>
+        <form action="" method="post">
+            <div class="form-group">
+                <textarea name="reply" placeholder="Leave your reply here..." required></textarea>
+            </div>
+            <div class="btn-container">
+                <button type="submit" name="submit" class="btn-submit">SEND</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

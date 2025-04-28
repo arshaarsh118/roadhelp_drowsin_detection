@@ -1,0 +1,139 @@
+{% include 'admin_header.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>admin_view_request</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .headers {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        .card-containers {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 20px;
+            width: 350px;
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .card-header {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .card-content {
+            margin-bottom: 20px;
+        }
+        .card-label {
+            font-weight: bold;
+            color: #7f8c8d;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        .card-value {
+            margin-bottom: 15px;
+            word-break: break-word;
+        }
+        .card-footer {
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .status-pending {
+            background-color: #f39c12;
+        }
+        .status-approved {
+            background-color: #2ecc71;
+        }
+        .status-rejected {
+            background-color: #e74c3c;
+        }
+        .status-completed {
+            background-color: #3498db;
+        }
+    </style>
+</head>
+<body>
+  
+    
+    <div class="headers">
+        <h3>Request</h3>
+    </div>
+    
+    <div class="card-containers">
+        {% for i in data['view'] %}
+        <div class="card">
+            <div class="card-header">
+                <span>{{i['request_type']}}</span>
+                <span class="status-badge 
+                    {% if i['request_status'] == 'pending' %}status-pending
+                    {% elif i['request_status'] == 'approved' %}status-approved
+                    {% elif i['request_status'] == 'rejected' %}status-rejected
+                    {% elif i['request_status'] == 'completed' %}status-completed
+                    {% endif %}">
+                    {{i['request_status']}}
+                </span>
+            </div>
+            
+            <div class="card-content">
+                <div class="card-label">Request From</div>
+                <div class="card-value">{{i['user_fname']}} ({{i['user_phone']}})</div>
+                
+                <div class="card-label">To</div>
+                <div class="card-value">{{i['username']}}</div>
+                
+                <div class="card-label">Description</div>
+                <div class="card-value">{{i['request_des']}}</div>
+                
+                <div class="card-label">Report</div>
+                <div class="card-value">{{i['request_report']}}</div>
+            </div>
+            
+            <div class="card-footer">
+                <span>Requested Date: {{i['request_date']}}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
